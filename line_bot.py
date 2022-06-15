@@ -17,12 +17,15 @@ from util import (
 import sys
 from io import BytesIO
 from util.constant import *
-
+from flask import send_from_directory
 
 app = Flask(__name__)
 line_bot_api = LineBotApi(lineBotKey)
 handler = WebhookHandler(webHookKey)
 
+@app.route('/static/<path:path>')
+def send_report(path):
+    return send_from_directory('static', path)
 
 @app.route('/callback', methods=['POST'])
 def callback():
