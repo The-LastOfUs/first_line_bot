@@ -1,4 +1,5 @@
-from flask import Flask, request, abort
+from flask import Flask, render_template, redirect, url_for, request, abort
+from urllib.parse import unquote
 import requests
 from linebot import (
     LineBotApi, WebhookHandler
@@ -47,9 +48,8 @@ def callback():
 
 
 @app.route('/')
-def hello():
-    return 'Hello World!'
-
+def liffHandle():
+    return render_template('liff.html')
 
 @handler.add(FollowEvent)
 def handle_follow(event):
