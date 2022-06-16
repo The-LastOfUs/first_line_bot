@@ -15,21 +15,32 @@ from buttons.button_type_enum import ButtonTypeEnum
 from util import (
     api_manager, menu_manager,
 )
+from message.coupon import supported_command
 import sys
 from io import BytesIO
 from util.constant import *
 from flask import send_from_directory
+import re
 
 app = Flask(__name__)
 line_bot_api = LineBotApi(lineBotKey)
+coupon_bot_api = LineBotApi(couponBotKey)
 handler = WebhookHandler(webHookKey)
+coupon_handler = WebhookHandler(couponChannelSecret)
 
 @app.route('/static/<path:path>')
 def send_report(path):
     return send_from_directory('static', path)
 
 @app.route('/callback', methods=['POST'])
-def callback():
+def user_callback():
+    return handle_callback(handler)
+
+@app.route('/coupon-callback', methods=['POST'])
+def coupon_callback():
+    return handle_callback(coupon_handler)
+
+def handle_callback(handler):
     # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
@@ -59,18 +70,13 @@ def handle_follow(event):
     profile = line_bot_api.get_profile(user_id)
     print(profile)
 
-    try:
-        line_bot_api.get_rich_menu_id_of_user(user_id)
-    except LineBotApiError:
-        print('rich id not found')
-        user = api_manager.add_user(profile.as_json_dict())
-        token = user['token']
-        sales_menu = menu_manager.get_sales_menu(token=token)
-        rich_menu_id = line_bot_api.create_rich_menu(rich_menu=sales_menu)
+    menu_list = line_bot_api.get_rich_menu_list()
+    if (len(menu_list) == 0):
+        ruch_menu = menu_manager.get_rich_menu()
+        rich_menu_id = line_bot_api.create_rich_menu(rich_menu=ruch_menu)
         with open(f'linebot_menu.png', 'rb') as f:
             line_bot_api.set_rich_menu_image(rich_menu_id, 'image/png', f)
-        line_bot_api.link_rich_menu_to_user(user_id=user_id, rich_menu_id=rich_menu_id)
-
+        line_bot_api.set_default_rich_menu(rich_menu_id=rich_menu_id)
 
 @handler.add(JoinEvent)
 def handle_join(event):
@@ -108,6 +114,38 @@ def handle_message(event):
     # 其他
     answer = {'text': message}
     send_answer_and_send_next_question(event, answer, 'text')
+
+# supported_command=[re.compile(r'/use (\w{8})'), re.compile(r'/add (\d{8})'), re.compile(r'/add \d{8} to \w')]
+# todo: coupon_handler 拉出去
+@coupon_handler.add(MessageEvent, message=TextMessage)
+def handle_coupon_command(event):
+    message = event.message.text
+    replay_message = ''
+    replay_message = supported_command.handle(message)
+    if (len(replay_message) != 0):
+        coupon_bot_api.reply_message(
+            reply_token = event.reply_token,
+            messages = TextSendMessage(text=replay_message)
+        )
+    # for i in range(len(supported_command)):
+    #     target_command = supported_command[i]
+    #     re_result = target_command.search(message)
+    #     if(re_result is None):
+    #         continue
+        
+    # if (re.match(r'/[a-zA-Z]*\s+', message)):
+    #     commands = message[1:].split()
+    #     replay_message = ''
+    #     if (commands[0] == supported_command[0] and len(commands[1]) != 0):
+    #         replay_message = '使用優惠券, 序號:' + commands[1]
+    #     elif(commands[0] == supported_command[1] and len(commands[1]) != 0):
+    #         replay_message = '新增優惠券' + commands[1]
+
+    #     if (len(replay_message) != 0):
+    #         coupon_bot_api.reply_message(
+    #             reply_token = event.reply_token,
+    #             messages = TextSendMessage(text=replay_message)
+    #         )
 
 
 # 送出答案並取得下一個問題

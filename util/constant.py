@@ -3,16 +3,18 @@ import os
 
 if len(sys.argv) > 1 and 'debug' in sys.argv:
     print('set debug key')
-    lineBotKey = 'AijUGmFB6Z7cxg0FHBO08dOtJVvJ/iSbeCChYAk90u6XiWYFUxmlIrFeXq1kgSrmm9mnRQAQ6ZRYnWsY5B1Z9jBBhpxSUtYMk' \
-                 'dfg8l5KKOa+K8QRYn1M8qQYHK87JzAncFmHN5+SUqcbZU2WhTkgUwdB04t89/1O/w1cDnyilFU='
-    webHookKey = '5ad181a3428b90c433f4b8e411f19abc'
+    lineBotKey = 'ZCyA68bpkHyWKcaK0ZumuImzTRWmiv9G49dSy1sATpBS58mgm9mJNF6g/T3sj2PVdNfdX+11rpIhmv3UtO9f04CLJqASNMmT2LOgT3GscQy2RcFcWvLz6O0fB2Hg6bLtdIlda9WZtTeaW+/baRflOAdB04t89/1O/w1cDnyilFU='
+    webHookKey = '34dd48d922b58fa8365b6f893726ce2d'
+    couponBotKey = 'fH8U3oGdkg3GK+Nbf9OmtrHkTIipMBvSNm7LJvxo+s+lLL/ze3/TdHIsGFL2IRx2phgCUAyntHER1h8jcRD4/ihLR6zFSJAQ0S2YhznRRwbu9BeR1PODhCvzY+6GmbDg9HFIjPa+mj3BwiNHa9EokgdB04t89/1O/w1cDnyilFU='
+    couponChannelSecret = '897adad1b36864fe64f3639e7e740a10'
     DOMAIN = 'https://app.dev.angelsctek.com/api'
     SALES_WEB_URL = 'https://sales.dev.angelsctek.com'
 else:
     #  release key
-    lineBotKey = 'O0uYQ4ZwnqhAKcS9fufK/shJXVXxWEOWTj4Thxo78Wu3a+xJJZxDqnS5WoCXrsV3Ix4XMsgxW9rdsn52SpKM6pl8VycJ2uZ1d5' \
-                 'zfHZnQraEnsfdKwz9t4/O+npMh7dRvmydVQ1wLhJxhjQLrb0O5MgdB04t89/1O/w1cDnyilFU='
-    webHookKey = '06fd9106919a98c2b69ce2457760698b'
+    lineBotKey = 'ZCyA68bpkHyWKcaK0ZumuImzTRWmiv9G49dSy1sATpBS58mgm9mJNF6g/T3sj2PVdNfdX+11rpIhmv3UtO9f04CLJqASNMmT2LOgT3GscQy2RcFcWvLz6O0fB2Hg6bLtdIlda9WZtTeaW+/baRflOAdB04t89/1O/w1cDnyilFU='
+    webHookKey = '34dd48d922b58fa8365b6f893726ce2d'
+    couponBotKey = 'fH8U3oGdkg3GK+Nbf9OmtrHkTIipMBvSNm7LJvxo+s+lLL/ze3/TdHIsGFL2IRx2phgCUAyntHER1h8jcRD4/ihLR6zFSJAQ0S2YhznRRwbu9BeR1PODhCvzY+6GmbDg9HFIjPa+mj3BwiNHa9EokgdB04t89/1O/w1cDnyilFU='
+    couponChannelSecret = '897adad1b36864fe64f3639e7e740a10'
     DOMAIN = 'https://app.angelsctek.com/api'
     SALES_WEB_URL = 'https://sales.angelsctek.com'
 

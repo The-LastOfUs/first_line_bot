@@ -5,36 +5,20 @@ from linebot import (
 from util.constant import *
 
 
-def get_sales_menu(token):
+def get_rich_menu():
     sales_menu = RichMenu(
         size=RichMenuSize(width=1200, height=810),
         selected=False,
         name='我的測試選單',
-        chat_bar_text='大天使選單',
+        chat_bar_text='選單bar點我開始',
         areas=[
             RichMenuArea(
-                bounds=RichMenuBounds(x=0, y=0, width=400, height=405),
-                action=MessageAction(label='visit', text='*--打卡--*'),
+                bounds=RichMenuBounds(x=0, y=0, width=600, height=810),
+                action=URIAction(label='login', uri='https://liff.line.me/1657218461-XRy2lwK9/static/out/form.html'),
             ),
             RichMenuArea(
-                bounds=RichMenuBounds(x=400, y=0, width=400, height=405),
-                action=URIAction(label='create_mou', uri=f'{SALES_WEB_URL}/create?token={token}'),
-            ),
-            RichMenuArea(
-                bounds=RichMenuBounds(x=800, y=0, width=400, height=405),
-                action=URIAction(label='map', uri=f'{SALES_WEB_URL}/map'),
-            ),
-            RichMenuArea(
-                bounds=RichMenuBounds(x=0, y=405, width=400, height=405),
-                action=MessageAction(label='clear', text='*--清除表單--*'),
-            ),
-            RichMenuArea(
-                bounds=RichMenuBounds(x=400, y=405, width=400, height=405),
-                action=URIAction(label='mymou', uri=f'{SALES_WEB_URL}/mymou?token={token}'),
-            ),
-            RichMenuArea(
-                bounds=RichMenuBounds(x=400, y=405, width=400, height=405),
-                action=MessageAction(label='report', text=f'*--意見回報--*'),
+                bounds=RichMenuBounds(x=600, y=0, width=1200, height=810),
+                action=URIAction(label='coupon', uri='https://liff.line.me/1657218461-XRy2lwK9/static/out/coupon.html'),
             ),
         ]
     )
