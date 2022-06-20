@@ -13,8 +13,6 @@ class CouponBotMessageHandle:
 
     def handle(self, message: str):
         for cmd in self.commands:
-            print(cmd.regular)
-            print(re.match(cmd.regular, message))
             if (re.match(cmd.regular, message)):
                 return cmd.handle(re.compile(cmd.regular).search(message))
 
@@ -37,9 +35,9 @@ def __handle_create_coupon(match_res: Match[str]) -> str:
 supported_command=CouponBotMessageHandle(
     commands=[
         Command(r'/use (\w{5})', __handle_use),
-        Command(r'/add (\w{5}) to (\w{3,})', __handle_add_to_user_id),
-        Command(r'/add (\w{5})', __handle_add_to_all),
-        Command(r'/create (\d+)', __handle_create_coupon),
+        # Command(r'/add (\w{5}) to (\w{3,})', __handle_add_to_user_id),
+        # Command(r'/add (\w{5})', __handle_add_to_all),
+        # Command(r'/create (\d+)', __handle_create_coupon),
     ]
 )            
 # supported_command=[re.compile(r'/use (\w{8})'), re.compile(r'/add (\d{1,8})'), re.compile(r'/add \d{8} to \w')]

@@ -115,10 +115,11 @@ def handle_message(event):
     answer = {'text': message}
     send_answer_and_send_next_question(event, answer, 'text')
 
-# supported_command=[re.compile(r'/use (\w{8})'), re.compile(r'/add (\d{8})'), re.compile(r'/add \d{8} to \w')]
-# todo: coupon_handler 拉出去
 @coupon_handler.add(MessageEvent, message=TextMessage)
 def handle_coupon_command(event):
+    if (event.source.type == 'group'):
+        return
+
     message = event.message.text
     replay_message = ''
     replay_message = supported_command.handle(message)
@@ -127,25 +128,6 @@ def handle_coupon_command(event):
             reply_token = event.reply_token,
             messages = TextSendMessage(text=replay_message)
         )
-    # for i in range(len(supported_command)):
-    #     target_command = supported_command[i]
-    #     re_result = target_command.search(message)
-    #     if(re_result is None):
-    #         continue
-        
-    # if (re.match(r'/[a-zA-Z]*\s+', message)):
-    #     commands = message[1:].split()
-    #     replay_message = ''
-    #     if (commands[0] == supported_command[0] and len(commands[1]) != 0):
-    #         replay_message = '使用優惠券, 序號:' + commands[1]
-    #     elif(commands[0] == supported_command[1] and len(commands[1]) != 0):
-    #         replay_message = '新增優惠券' + commands[1]
-
-    #     if (len(replay_message) != 0):
-    #         coupon_bot_api.reply_message(
-    #             reply_token = event.reply_token,
-    #             messages = TextSendMessage(text=replay_message)
-    #         )
 
 
 # 送出答案並取得下一個問題
